@@ -20,7 +20,7 @@ public class AsteroidAttack extends JFrame {
     final int POINT_SCALE = 2;
     final int FIELD_WIDTH = 400*POINT_SCALE;
     final int FIELD_HEIGHT = 300*POINT_SCALE;
-    final int START_LOCATION = 151;
+    final int START_LOCATION = 150;
     final int FIELD_DX = 7; // determined experimentally
     final int FIELD_DY = 26;
     final int LEFT = 37; // key codes
