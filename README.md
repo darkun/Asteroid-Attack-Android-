@@ -2,5 +2,7 @@
 Simple scroller game for mobile platform (android).
 
 
-javac AsteroidAttack.java
-java AsteroidAttack
+### Run an older version of the game
+
+    javac AsteroidAttack.java
+    java AsteroidAttack
