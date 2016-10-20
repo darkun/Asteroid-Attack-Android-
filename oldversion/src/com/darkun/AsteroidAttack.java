@@ -1,10 +1,7 @@
 package com.darkun;
 
 import com.darkun.environment.Space;
-import com.darkun.objects.Asteroid;
-import com.darkun.objects.Missile;
-import com.darkun.objects.MissileBoom;
-import com.darkun.objects.Playership;
+import com.darkun.objects.*;
 import com.darkun.utility.Keys;
 
 import javax.swing.*;
@@ -19,16 +16,23 @@ import java.io.*;
 import java.lang.*;
 
 /*
- * Asteroid Attack scroller game (Refactoring)
+ * Asteroid Attack scroller game (Refactoring). Main class and main method.
+ * go() - main game loop
+ * clearObjects() - deleting empty objects from array lists, and creating new asteroids
+ * rnd(double min, double max) - get random double value from range
+ * isTrue() - get random true or false
+ * paintNumber() - paint digital to screen
+ * paintHealthBar() - paint healthbar of playership
+ *
  * @author Dmitry Kartsev, based on SpaceInviders by Sergey (biblelamp) - https://github.com/biblelamp
- * @version 0.4.7 18/09/2016
+ * @version 0.5.2 19/10/2016
 */
 
 public class AsteroidAttack extends JFrame {
     final String NAME_OF_GAME = "Asteroid Attack! Scroller Game";
     private static final int POINT_SCALE = 2;
-    public static final int FIELD_WIDTH = 400*POINT_SCALE;
-    public static final int FIELD_HEIGHT = 300*POINT_SCALE;
+    public static final int FIELD_WIDTH = 250*POINT_SCALE;
+    public static final int FIELD_HEIGHT = 400*POINT_SCALE;
     private static final int START_LOCATION = 150;
     private static final int FIELD_DX = 7; // determined experimentally
     private static final int FIELD_DY = 26;
@@ -49,7 +53,7 @@ public class AsteroidAttack extends JFrame {
     private static int countScore; // point we got while playing
     private static int missedScore; // missed asteroids count (we need to destoy it, right?)
     Canvas canvasPanel = new Canvas();
-    Random random = new Random();
+    static Random random = new Random();
     Keys k = new Keys(); // keyboard utility
 
     public static Image ast, ship, missile, m_explosion, driverflame, space; // sprites for asteroids, spaceship, missile, explosive, space
@@ -60,6 +64,7 @@ public class AsteroidAttack extends JFrame {
     public static volatile ArrayList<Missile> missiles = new ArrayList<>(); // missiles, launched by player
     public static volatile ArrayList<Asteroid> asteroids = new ArrayList<>(); // missiles, launched by player
     public static volatile ArrayList<MissileBoom> m_explosions = new ArrayList<>(); // missile explosions
+    public static volatile ArrayList<Bonus> bonuses = new ArrayList<>(); // bonuses after asteroid explode
 
     public static void main(String args[]) {
         new AsteroidAttack().go();
@@ -79,6 +84,7 @@ public class AsteroidAttack extends JFrame {
             ast = ImageIO.read(new File("img/asteroid.png"));
             missile = ImageIO.read(new File("img/missile.png"));
             m_explosion = ImageIO.read(new File("img/m_explosion.png"));
+            //bonus_sprite = ImageIO.read(new File("img/bonus.png"));
             driverflame = ImageIO.read(new File("img/driveflame.png"));
             space = ImageIO.read(new File("img/space.jpg"));
         } catch(IOException e) { e.printStackTrace(); }
@@ -94,7 +100,7 @@ public class AsteroidAttack extends JFrame {
         });
         setVisible(true);
 
-        asteroids.add(new Asteroid(random.nextInt(FIELD_WIDTH), -50, 0, 15));// let's start
+        asteroids.add(new Asteroid(random.nextInt(FIELD_WIDTH), -50, 0, 15, 0));// let's start
     }
 
     public static void setGameOver(boolean gameOver) {
@@ -128,6 +134,9 @@ public class AsteroidAttack extends JFrame {
                 for (MissileBoom missile_boom : m_explosions) {
                     if (missile_boom.isEnable()) missile_boom.explode();
                 }
+                for (Bonus bonus : bonuses) {
+                    if (bonus.isEnable()) bonus.fly();
+                }
                 if (k.isPressed(KeyEvent.VK_UP)) playership.setDirection(UP);
                 if (k.isPressed(KeyEvent.VK_DOWN)) playership.setDirection(DOWN);
                 if (k.isPressed(KeyEvent.VK_LEFT)) playership.setDirection(LEFT);
@@ -152,19 +161,36 @@ public class AsteroidAttack extends JFrame {
         for(int i = 0; i < asteroids.size(); i++) { // for asteroids
             if(!asteroids.get(i).isEnable()) {
                 asteroids.remove(i); // removing old
-                // and adding new
-                asteroids.add(new Asteroid(random.nextInt(FIELD_WIDTH), -50, rnd(-3.7, 3.7), (int)rnd(14,38)));
+                // and adding new asteroid(s)
+                if(isTrue(90)) {
+                    asteroids.add(new Asteroid(random.nextInt(FIELD_WIDTH), -50, rnd(-3.7, 3.7), (int) rnd(7, 28), 1));
+                }
+                asteroids.add(new Asteroid(random.nextInt(FIELD_WIDTH), -50, rnd(-3.7, 3.7), (int)rnd(14,38), 0));
             }
         }
         // if explosion is already gone, than we do not need it
         for(int i = 0; i < m_explosions.size(); i++) { // for missiles
             if(!m_explosions.get(i).isEnable()) m_explosions.remove(i);
         }
+        // if bonus is already gone, than we do not need it
+        for(int i = 0; i < bonuses.size(); i++) { // for bonuses
+            if(!bonuses.get(i).isEnable()) bonuses.remove(i);
+        }
     }
 
     // some utility for generate positive and negative double values
-    double rnd(double min, double max) {
+    public static double rnd(double min, double max) {
         return min + (random.nextDouble() * (max - min));
+    }
+
+    // some utility for generate positive and negative (boolean)
+    public static boolean isTrue() { return  random.nextBoolean(); }
+
+    // some utility for generate positive and negative (boolean) with chance rate (0 - 100)
+    public static boolean isTrue(double chance) {
+        if(chance <= rnd(0.0, 100.0))
+            return true;
+        return false;
     }
 
     public static void setGameScore(int value) { countScore = value; }
@@ -190,6 +216,9 @@ public class AsteroidAttack extends JFrame {
                 }
                 for (MissileBoom missile_boom : m_explosions) {
                     if (missile_boom.isEnable()) missile_boom.paint(g);
+                }
+                for (Bonus bonus : bonuses) {
+                    if (bonus.isEnable()) bonus.paint(g);
                 }
             }
         }
@@ -229,7 +258,7 @@ public class AsteroidAttack extends JFrame {
         if (gameOver)
             for (int y = 0; y < GAME_OVER.length; y++)
                 for (int x = 0; x < GAME_OVER[y].length; x++)
-                    if (GAME_OVER[y][x] == 1) g.fillRect(x*POINT_SCALE + 350, y*POINT_SCALE + 270, POINT_SCALE, POINT_SCALE);
+                    if (GAME_OVER[y][x] == 1) g.fillRect(x*POINT_SCALE + FIELD_WIDTH / 2 - 50, y*POINT_SCALE + FIELD_HEIGHT / 2, POINT_SCALE, POINT_SCALE);
     }
 
     void paintNumber(Graphics g, int number, int x, int y) { // paint numbers (countScore, countLives)

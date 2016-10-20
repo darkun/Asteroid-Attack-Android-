@@ -4,6 +4,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+/**
+ * Keyboard utility class. If 2 keys pressed in onetime?
+ *
+ * @author Dmitry Kartsev, based on SpaceInviders by Sergey (biblelamp) - https://github.com/biblelamp
+ * @version 0.5.2 19/10/2016
+*/
 public class Keys{
 
     // все нажатые кнопки (в данный момент)

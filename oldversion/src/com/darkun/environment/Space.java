@@ -4,13 +4,15 @@ import com.darkun.AsteroidAttack;
 
 import java.awt.*;
 
-/**
- * Created by Jag on 06.10.2016.
- */
+/*
+ * Space enviroment work. slide() - just for scroll space (motion imitation)
+ * @author Dmitry Kartsev, based on SpaceInviders by Sergey (biblelamp) - https://github.com/biblelamp
+ * @version 0.5.2 19/10/2016
+*/
 public class Space { // wave of asteroid attack
-    final int STEP = 1; // step for space wallpaper scroll
-    final int SPEED = 35; // speed of animation
-    final int ANIM_FRAMES = 821;
+    static final int STEP = 1; // step for space wallpaper scroll
+    static final int SPEED = 35; // speed of animation
+    static final int ANIM_FRAMES = 621;
 
     //protected AsteroidAttack asteroidattack;
 

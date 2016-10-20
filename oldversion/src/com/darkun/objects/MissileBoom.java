@@ -4,14 +4,18 @@ import com.darkun.AsteroidAttack;
 
 import java.awt.*;
 
-/**
- * Created by Jag on 06.10.2016.
- */
-public class MissileBoom extends GameObject {
+/*
+ * Missile Boom is a missile explosion staff
+ * explode() - init explosion start
+ *
+ * @author Dmitry Kartsev, based on SpaceInviders by Sergey (biblelamp) - https://github.com/biblelamp
+ * @version 0.5.2 19/10/2016
+*/
+public class MissileBoom extends GameObject implements CheckEnable {
 
-    final int SPRITE_CELL = 72; // size of sprite cell
-    final int ANIM_SPEED = 1; // speed of animation
-    final int ANIM_FRAMES = 71; // how many frames do we have for animation
+    static final int SPRITE_CELL = 72; // size of sprite cell
+    static final int ANIM_SPEED = 1; // speed of animation
+    static final int ANIM_FRAMES = 71; // how many frames do we have for animation
 
     int animTime, animPhase; // position of explosion and phase of animation
 
