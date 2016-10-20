@@ -5,15 +5,20 @@ import com.darkun.AsteroidAttack;
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * Created by Jag on 06.10.2016.
- */
-public class Missile extends GameObject implements Fly {
-    final int WIDTH = 2; // for accuracy calc
-    final int HEIGHT = 30; // for accuracy calc
-    final int DY = 30;
-    final int SPEED = 16; // speed of missile
-    final int DAMAGE = 35; // what damage it do to asteroid / enemy
+/*
+ * Missile class.
+ * fly() - calculate right params for drawing object
+ * checkTarget() - if missile target any object
+ *
+ * @author Dmitry Kartsev, based on SpaceInviders by Sergey (biblelamp) - https://github.com/biblelamp
+ * @version 0.5.2 19/10/2016
+*/
+public class Missile extends GameObject implements Fly, CheckEnable {
+    static final int WIDTH = 2; // for accuracy calc
+    static final int HEIGHT = 30; // for accuracy calc
+    static final int DY = 30;
+    static final int SPEED = 16; // speed of missile
+    static final int DAMAGE = 35; // what damage it do to asteroid / enemy
     int bonus = 15; // score bonus for destroying asteroid
     int x, y, flyTime, lastLunch;
     boolean exists;
@@ -27,14 +32,14 @@ public class Missile extends GameObject implements Fly {
         }
     }
 
-    public void start(int x, int y) {
+    /*public void start(int x, int y) {
         if (!exists) {
             this.exists = true;
             this.x = x + (AsteroidAttack.playership.getWidth() - WIDTH) / 2;
             this.y = y - HEIGHT;
             this.flyTime = 0;
         }
-    }
+    }*/
 
     public boolean checkTarget(int x, int y) {
         for (Asteroid asteroid : AsteroidAttack.asteroids) {
@@ -46,8 +51,6 @@ public class Missile extends GameObject implements Fly {
         }
         return false;
     }
-
-    public int getLastLunch() { return lastLunch; }
 
     @Override
     public boolean isEnable() { return exists; }
