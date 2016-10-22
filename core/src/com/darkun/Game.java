@@ -11,56 +11,61 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Game extends ApplicationAdapter {
-	private static final int WIDTH = 500;
-	private static final int HEIGHT = 800;
-	private SpriteBatch batch;
-	private Sprite backgroundSprite;
+    public static final int SCREEN_WIDTH = 500;
+    public static final int SCREEN_HEIGHT = 800;
 
-	private Texture backgroundImg;
-	private Texture spaceShipImg;
-	private Rectangle spaceShip;
+    private SpriteBatch batch;
+    private Sprite backgroundSprite;
 
-	private OrthographicCamera camera;
-	
-	@Override
-	public void create () {
-		backgroundImg = new Texture(Gdx.files.internal("space.jpg"));
-		spaceShipImg = new Texture(Gdx.files.internal("spaceship.png"));
+    private Texture backgroundImg;
+    private Texture spaceShipImg;
+    private Rectangle spaceShip;
 
-		backgroundSprite = new Sprite(backgroundImg);
+    private OrthographicCamera camera;
 
-		spaceShip = new Rectangle();
-		spaceShip.setHeight(80).setWidth(80);
-		spaceShip.setCenter(WIDTH / 2, 80);
+    @Override
+    public void create() {
+        backgroundImg = new Texture(Gdx.files.internal("space.jpg"));
+        spaceShipImg = new Texture(Gdx.files.internal("spaceship.png"));
 
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, WIDTH, HEIGHT);
-		batch = new SpriteBatch();
-	}
+        backgroundSprite = new Sprite(backgroundImg);
 
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        spaceShip = new Rectangle();
+        spaceShip.setHeight(80).setWidth(80);
+        spaceShip.setCenter(SCREEN_WIDTH / 2, 80);
 
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
+        batch = new SpriteBatch();
+    }
 
-		batch.begin();
-		backgroundSprite.draw(batch);
-		batch.draw(spaceShipImg, spaceShip.getX(), spaceShip.getY());
-		batch.end();
+    @Override
+    public void render() {
+        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
-			spaceShip.x -= 200 * Gdx.graphics.getDeltaTime();
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-			spaceShip.x += 200 * Gdx.graphics.getDeltaTime();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		backgroundImg.dispose();
-		spaceShipImg.dispose();
-	}
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+
+        batch.begin();
+        backgroundSprite.draw(batch);
+        batch.draw(spaceShipImg, spaceShip.getX(), spaceShip.getY());
+        batch.end();
+
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+            spaceShip.x -= 300 * Gdx.graphics.getDeltaTime();
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+            spaceShip.x += 300 * Gdx.graphics.getDeltaTime();
+
+        if (spaceShip.getX() < 0) spaceShip.setX(0);
+        if (spaceShip.getX() > SCREEN_WIDTH - spaceShip.getWidth())
+            spaceShip.setX(SCREEN_WIDTH - spaceShip.getWidth());
+    }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        backgroundImg.dispose();
+        spaceShipImg.dispose();
+    }
 }
