@@ -1,6 +1,7 @@
 package com.darkun;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
@@ -9,10 +10,16 @@ public class AsteroidAttack extends Game {
     public static final int SCREEN_HEIGHT = 800;
 
     private SpriteBatch batch;
+    private AssetManager assetManager;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
+
+        assetManager = new AssetManager();
+        ResourceLoader.load(assetManager);
+        assetManager.finishLoading();
+
         this.setScreen(new AttackScreen(this));
     }
 
@@ -28,5 +35,9 @@ public class AsteroidAttack extends Game {
 
     public SpriteBatch getBatch() {
         return batch;
+    }
+
+    public AssetManager getAssetManager() {
+        return assetManager;
     }
 }

@@ -7,7 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
-import com.darkun.AsteroidAttack;
+
+import static com.darkun.AsteroidAttack.SCREEN_WIDTH;
 
 /**
  * @author Gavrilov E. <mr.jerik@gmail.com>
@@ -34,8 +35,8 @@ public class SpaceShip implements Disposable {
             bounds.x += 300 * Gdx.graphics.getDeltaTime();
 
         if (bounds.getX() < 0) bounds.setX(0);
-        if (bounds.getX() > AsteroidAttack.SCREEN_WIDTH - bounds.getWidth())
-            bounds.setX(AsteroidAttack.SCREEN_WIDTH - bounds.getWidth());
+        if (bounds.getX() > SCREEN_WIDTH - bounds.getWidth())
+            bounds.setX(SCREEN_WIDTH - bounds.getWidth());
     }
 
     public void draw(final Batch batch) {
