@@ -6,7 +6,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.darkun.objects.SpaceShip;
 
@@ -21,8 +20,7 @@ import static com.darkun.AsteroidAttack.SCREEN_WIDTH;
  */
 public class AttackScreen implements Screen {
     private AsteroidAttack game;
-    private Sprite backgroundSprite;
-
+    private Background background;
     private SpaceShip spaceShip;
     private OrthographicCamera camera;
 
@@ -30,7 +28,7 @@ public class AttackScreen implements Screen {
         this.game = game;
 
         AssetManager assets = game.getAssetManager();
-        backgroundSprite = new Sprite(assets.get(SPACE, Texture.class));
+        background = new Background(assets.get(SPACE, Texture.class));
         spaceShip = new SpaceShip(assets.get(SPACESHIP, Texture.class), SCREEN_WIDTH / 2, 80);
 
         camera = new OrthographicCamera();
@@ -50,7 +48,7 @@ public class AttackScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        backgroundSprite.draw(batch);
+        background.draw(batch);
         spaceShip.draw(batch);
         batch.end();
 
