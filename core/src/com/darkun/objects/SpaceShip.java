@@ -19,6 +19,8 @@ public class SpaceShip implements Disposable {
     private Rectangle bounds;
     private Texture texture;
 
+    private float offset_x; // наш корабль может чуть вылетать за пределы экрана, а то астероиды тоже вылетают
+
     public SpaceShip(Texture texture, float x, float y) {
         this.texture = texture;
         this.position = new Vector2(x, y);
@@ -26,6 +28,7 @@ public class SpaceShip implements Disposable {
                 .setHeight(80)
                 .setWidth(80)
                 .setCenter(position);
+        this.offset_x = bounds.getWidth() / 2;
     }
 
     public void processKeys() {
@@ -34,9 +37,9 @@ public class SpaceShip implements Disposable {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
             bounds.x += 300 * Gdx.graphics.getDeltaTime();
 
-        if (bounds.getX() < 0) bounds.setX(0);
-        if (bounds.getX() > SCREEN_WIDTH - bounds.getWidth())
-            bounds.setX(SCREEN_WIDTH - bounds.getWidth());
+        if (bounds.getX() < -offset_x) bounds.setX(-offset_x);
+        if (bounds.getX() > SCREEN_WIDTH - offset_x)
+            bounds.setX(SCREEN_WIDTH - offset_x);
     }
 
     public void draw(final Batch batch) {
