@@ -11,7 +11,7 @@ import static com.darkun.AsteroidAttack.SCREEN_HEIGHT;
  */
 public class Background {
     private static int STEP = 1;  // step for space wallpaper scroll
-    private static int SPEED = 0; // speed of animation
+    private static int SPEED = 10; // speed of animation
 
     private Texture texture;
     private int counter = 0;
