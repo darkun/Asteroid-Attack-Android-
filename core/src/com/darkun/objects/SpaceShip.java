@@ -23,8 +23,8 @@ public class SpaceShip implements Disposable {
         this.texture = texture;
         this.position = new Vector2(x, y);
         this.bounds = new Rectangle()
-                .setHeight(80)
-                .setWidth(80)
+                .setHeight(texture.getHeight())
+                .setWidth(texture.getWidth())
                 .setCenter(position);
     }
 

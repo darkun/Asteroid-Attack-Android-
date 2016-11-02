@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.darkun.objects.Asteroid;
 import com.darkun.objects.SpaceShip;
 
+import static com.darkun.ResourceLoader.ASTEROID;
 import static com.darkun.ResourceLoader.SPACE;
 import static com.darkun.ResourceLoader.SPACESHIP;
 import static com.darkun.AsteroidAttack.SCREEN_HEIGHT;
@@ -23,6 +25,7 @@ public class AttackScreen implements Screen {
     private Background background;
     private SpaceShip spaceShip;
     private OrthographicCamera camera;
+    private Asteroid asteroid;
 
     public AttackScreen(final AsteroidAttack game) {
         this.game = game;
@@ -33,6 +36,8 @@ public class AttackScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        asteroid = new Asteroid(assets.get(ASTEROID, Texture.class), 72, 72);
     }
 
     @Override
@@ -50,6 +55,7 @@ public class AttackScreen implements Screen {
         batch.begin();
         background.draw(batch);
         spaceShip.draw(batch);
+        asteroid.draw(batch);
         batch.end();
 
         spaceShip.processKeys();
