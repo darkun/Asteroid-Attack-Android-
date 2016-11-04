@@ -7,8 +7,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.darkun.objects.Asteroid;
+import com.darkun.objects.Missile;
 import com.darkun.objects.SpaceShip;
 
+import java.util.ArrayList;
+
+import static com.darkun.ResourceLoader.ASTEROID;
 import static com.darkun.ResourceLoader.SPACE;
 import static com.darkun.ResourceLoader.SPACESHIP;
 import static com.darkun.AsteroidAttack.SCREEN_HEIGHT;
@@ -22,7 +27,9 @@ public class AttackScreen implements Screen {
     private AsteroidAttack game;
     private Background background;
     private SpaceShip spaceShip;
+    public static ArrayList<Missile> missiles = new ArrayList<>(); // missiles, launched by player
     private OrthographicCamera camera;
+    private Asteroid asteroid;
 
     public AttackScreen(final AsteroidAttack game) {
         this.game = game;
@@ -33,6 +40,8 @@ public class AttackScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        asteroid = new Asteroid(assets.get(ASTEROID, Texture.class), 72, 72);
     }
 
     @Override
@@ -43,16 +52,35 @@ public class AttackScreen implements Screen {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        updateGameLogic();
         camera.update();
         SpriteBatch batch = game.getBatch();
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
         background.draw(batch);
+        for (Missile missile : missiles) {
+            if (missile.isEnable()) missile.draw(batch);
+        }
         spaceShip.draw(batch);
+        asteroid.draw(batch);
         batch.end();
 
         spaceShip.processKeys();
+    }
+
+    private void updateGameLogic() { // let's update our game situation
+        for (Missile missile : missiles) {
+            if (missile.isEnable()) missile.update();
+        }
+
+        clearObjects();
+    }
+
+    void clearObjects() { // let's delete empty objects from array lists
+        for(int i = 0; i < missiles.size(); i++) { // for missiles
+            if(!missiles.get(i).isEnable()) missiles.remove(i);
+        }
     }
 
     @Override
