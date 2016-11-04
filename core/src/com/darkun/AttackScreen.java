@@ -7,10 +7,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.darkun.objects.Asteroid;
+import com.badlogic.gdx.math.MathUtils;
+import com.darkun.objects.AsteroidPool;
+import com.darkun.objects.asteroid.Asteroid;
 import com.darkun.objects.SpaceShip;
 
-import static com.darkun.ResourceLoader.ASTEROID;
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.darkun.ResourceLoader.SPACE;
 import static com.darkun.ResourceLoader.SPACESHIP;
 import static com.darkun.AsteroidAttack.SCREEN_HEIGHT;
@@ -25,7 +29,9 @@ public class AttackScreen implements Screen {
     private Background background;
     private SpaceShip spaceShip;
     private OrthographicCamera camera;
-    private Asteroid asteroid;
+
+    private AsteroidPool asteroidPool;
+    private List<Asteroid> activeAsteroids = new ArrayList<>();
 
     public AttackScreen(final AsteroidAttack game) {
         this.game = game;
@@ -37,7 +43,8 @@ public class AttackScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        asteroid = new Asteroid(assets.get(ASTEROID, Texture.class), 72, 72);
+        asteroidPool = new AsteroidPool(assets);
+        activeAsteroids.add(asteroidPool.obtain());
     }
 
     @Override
@@ -55,7 +62,15 @@ public class AttackScreen implements Screen {
         batch.begin();
         background.draw(batch);
         spaceShip.draw(batch);
-        asteroid.draw(batch);
+
+        //todo change the operating logic
+        if (MathUtils.random(100) > 99) {
+            activeAsteroids.add(asteroidPool.obtain());
+        }
+
+        for (Asteroid i : activeAsteroids) {
+            i.draw(batch);
+        }
         batch.end();
 
         spaceShip.processKeys();
