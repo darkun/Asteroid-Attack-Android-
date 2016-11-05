@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.Disposable;
 import com.darkun.AsteroidAttack;
 import com.darkun.AttackScreen;
 
+import static com.badlogic.gdx.utils.TimeUtils.millis;
+import static com.badlogic.gdx.utils.TimeUtils.timeSinceMillis;
 import static com.darkun.AsteroidAttack.SCREEN_WIDTH;
 import static com.darkun.ResourceLoader.SPACESHIP;
 
@@ -26,7 +28,7 @@ public class SpaceShip implements Disposable {
     private static final double MISSILE_LAUNCH_DELAY = 750.0d; // delay between launching missiles
     private static final float M_FLY_X_OFFSET = 53.0f; // distance from center of spaceship to shoot missile
     private static final float M_FLY_Y_OFFSET = 30.0f; // distance from bottom of spaceship to shoot missile
-    private static double lastShoot; // where was last missile launching
+    private static long lastShoot; // where was last missile launching
     private boolean rightWing; // we can start missiles from both wings
     private float offsetX; // наш корабль может чуть вылетать за пределы экрана, а то астероиды тоже вылетают
 
@@ -56,7 +58,7 @@ public class SpaceShip implements Disposable {
     }
 
     private void startMissile(float x, float y) {
-        if((System.currentTimeMillis() - lastShoot) > MISSILE_LAUNCH_DELAY) {
+        if(timeSinceMillis(lastShoot) > MISSILE_LAUNCH_DELAY) {
             if(rightWing) {
                 AttackScreen.missiles.add(new Missile(x + M_FLY_X_OFFSET, y + M_FLY_Y_OFFSET));
                 this.rightWing = false;
@@ -65,7 +67,7 @@ public class SpaceShip implements Disposable {
                 AttackScreen.missiles.add(new Missile(x + M_FLY_X_OFFSET / 3, y + M_FLY_Y_OFFSET));
                 this.rightWing = true;
             }
-            lastShoot = System.currentTimeMillis();
+            lastShoot = millis();
         }
     }
 

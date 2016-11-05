@@ -29,12 +29,12 @@ public class AttackScreen implements Screen {
     private AsteroidAttack game;
     private Background background;
     private SpaceShip spaceShip;
-    public static ArrayList<Missile> missiles = new ArrayList<>(); // missiles, launched by player
     private OrthographicCamera camera;
-    private Asteroid asteroid;
 
     private AsteroidPool asteroidPool;
     private List<Asteroid> activeAsteroids = new ArrayList<>();
+
+    public static ArrayList<Missile> missiles = new ArrayList<>(); // missiles, launched by player
 
     public AttackScreen(final AsteroidAttack game) {
         this.game = game;
