@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Pool;
 import com.darkun.objects.asteroid.Asteroid;
-import com.darkun.objects.asteroid.Asteroid1;
 import com.darkun.objects.asteroid.AsteroidImpl;
 
 import static com.darkun.ResourceLoader.ASTEROID_1;
@@ -27,6 +26,6 @@ public class AsteroidPool extends Pool<Asteroid> {
         if (MathUtils.randomBoolean())
             return new AsteroidImpl(assets.get(ASTEROID_2, Texture.class), 72, 72);
         else
-            return new Asteroid1(assets.get(ASTEROID_1, Texture.class), 72, 72);
+            return new AsteroidImpl(assets.get(ASTEROID_1, Texture.class), 72, 72);
     }
 }
