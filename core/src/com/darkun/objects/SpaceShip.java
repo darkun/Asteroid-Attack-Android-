@@ -24,6 +24,7 @@ public class SpaceShip implements Disposable {
     private Vector2 position;
     private Rectangle bounds;
     private Texture texture;
+    private AttackScreen attackScreen;
 
     private static final double MISSILE_LAUNCH_DELAY = 750.0d; // delay between launching missiles
     private static final float M_FLY_X_OFFSET = 53.0f; // distance from center of spaceship to shoot missile
@@ -32,7 +33,7 @@ public class SpaceShip implements Disposable {
     private boolean rightWing; // we can start missiles from both wings
     private float offsetX; // наш корабль может чуть вылетать за пределы экрана, а то астероиды тоже вылетают
 
-    public SpaceShip(Texture texture, float x, float y) {
+    public SpaceShip(Texture texture, float x, float y, AttackScreen screen) {
         this.texture = texture;
         this.position = new Vector2(x, y);
         this.bounds = new Rectangle()
@@ -42,6 +43,7 @@ public class SpaceShip implements Disposable {
         this.offsetX = bounds.getWidth() / 2;
         this.rightWing = true;
         this.lastShoot = 0;
+        this.attackScreen = screen;
     }
 
     public void processKeys() {
@@ -60,11 +62,11 @@ public class SpaceShip implements Disposable {
     private void startMissile(float x, float y) {
         if(timeSinceMillis(lastShoot) > MISSILE_LAUNCH_DELAY) {
             if(rightWing) {
-                AttackScreen.missiles.add(new Missile(x + M_FLY_X_OFFSET, y + M_FLY_Y_OFFSET));
+                attackScreen.addtMissileToPool(x + M_FLY_X_OFFSET, y + M_FLY_Y_OFFSET);
                 this.rightWing = false;
             }
             else {
-                AttackScreen.missiles.add(new Missile(x + M_FLY_X_OFFSET / 3, y + M_FLY_Y_OFFSET));
+                attackScreen.addtMissileToPool(x + M_FLY_X_OFFSET / 3, y + M_FLY_Y_OFFSET);
                 this.rightWing = true;
             }
             lastShoot = millis();
