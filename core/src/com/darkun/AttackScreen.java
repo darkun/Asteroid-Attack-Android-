@@ -99,6 +99,8 @@ public class AttackScreen implements Screen {
     }
 
     void clearObjects() { // let's delete empty objects from array lists
+        // that's why I use "boolean active" for missiles. Else we will get an error in draw() - not initialized cords
+        // So, I do not understand, why do we have in activeMissiles arrow NOT active missiles. U can check it yourself.
         Missile mis;
         for (int i = activeMissiles.size(); --i >= 0;) {
             mis = activeMissiles.get(i);
@@ -129,7 +131,7 @@ public class AttackScreen implements Screen {
 
     public void addtMissileToPool(float x, float y) {
         Missile mis = missilePool.obtain();
-        mis.shootMissile(x, y);
+        mis.start(x, y);
         activeMissiles.add(mis);
     }
 }

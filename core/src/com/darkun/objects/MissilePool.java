@@ -15,7 +15,6 @@ import static com.darkun.ResourceLoader.MISSILE;
  */
 public class MissilePool extends Pool<Missile> {
     private AssetManager assets;
-    private Vector2 startPosition;
 
     public MissilePool(AssetManager manager) {
         this.assets = manager;

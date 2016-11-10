@@ -12,5 +12,5 @@ public interface Missile extends Pool.Poolable {
 
     boolean isEnable();
 
-    void shootMissile(float x, float y);
+    void start(float x, float y);
 }

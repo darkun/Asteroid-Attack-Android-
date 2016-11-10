@@ -49,11 +49,10 @@ public class MissileImpl implements Missile {
     @Override
     public void reset() {
         position.set(0, 0);
-        this.active = false;
     }
 
     @Override
-    public void shootMissile(float x, float y) {
+    public void start(float x, float y) {
         this.position.set(x, y);
         this.bounds = new Rectangle()
                 .setHeight(texture.getHeight())
