@@ -3,6 +3,7 @@ package com.darkun;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,10 +17,12 @@ import com.darkun.objects.Player;
 import com.darkun.objects.asteroid.Asteroid;
 import com.darkun.objects.SpaceShip;
 import com.darkun.objects.missile.Missile;
+import com.badlogic.gdx.audio.Music;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.darkun.ResourceLoader.BACKMUSIC;
 import static com.darkun.ResourceLoader.SPACE;
 import static com.darkun.ResourceLoader.SPACESHIP;
 import static com.darkun.AsteroidAttack.SCREEN_HEIGHT;
@@ -36,6 +39,7 @@ public class AttackScreen implements Screen {
     private OrthographicCamera camera;
     private Player player;
     private BitmapFont font;
+    private GameMusic gameMusic;
 
     private AsteroidPool asteroidPool;
     private List<Asteroid> activeAsteroids = new ArrayList<>();
@@ -62,6 +66,9 @@ public class AttackScreen implements Screen {
 
         font = new BitmapFont();
         font.setColor(Color.BLUE);
+
+        gameMusic = new GameMusic(assets.get(BACKMUSIC, Music.class));
+        gameMusic.playMusic();
     }
 
     @Override
