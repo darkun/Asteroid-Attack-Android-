@@ -3,14 +3,15 @@ package com.darkun;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.darkun.objects.AsteroidPool;
-import com.darkun.objects.missile.Missile;
-import com.darkun.objects.MissilePool;
+import com.darkun.objects.Player;
 import com.darkun.objects.asteroid.Asteroid;
 import com.darkun.objects.SpaceShip;
 
@@ -31,6 +32,8 @@ public class AttackScreen implements Screen {
     private Background background;
     private SpaceShip spaceShip;
     private OrthographicCamera camera;
+    private Player player;
+    private BitmapFont font;
 
     private AsteroidPool asteroidPool;
     private List<Asteroid> activeAsteroids = new ArrayList<>();
@@ -45,16 +48,17 @@ public class AttackScreen implements Screen {
 
         AssetManager assets = game.getAssetManager();
         background = new Background(assets.get(SPACE, Texture.class));
-        spaceShip = new SpaceShip(assets.get(SPACESHIP, Texture.class), SCREEN_WIDTH / 2, 80, this);
+        spaceShip = new SpaceShip(assets.get(SPACESHIP, Texture.class), SCREEN_WIDTH / 2, 80);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         asteroidPool = new AsteroidPool(assets);
         activeAsteroids.add(asteroidPool.obtain());
+        player = new Player();
 
-        missilePool = new MissilePool(assets);
-        activeMissiles.add(missilePool.obtain());
+        font = new BitmapFont();
+        font.setColor(Color.BLUE);
     }
 
     @Override
@@ -87,6 +91,8 @@ public class AttackScreen implements Screen {
         for (Asteroid i : activeAsteroids) {
             i.draw(batch);
         }
+
+        font.draw(batch, String.valueOf(player.getHealth()), SCREEN_WIDTH - 30, SCREEN_HEIGHT - 10);
         batch.end();
 
         spaceShip.processKeys();
