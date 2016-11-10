@@ -11,9 +11,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.darkun.objects.AsteroidPool;
+import com.darkun.objects.MissilePool;
 import com.darkun.objects.Player;
 import com.darkun.objects.asteroid.Asteroid;
 import com.darkun.objects.SpaceShip;
+import com.darkun.objects.missile.Missile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +50,14 @@ public class AttackScreen implements Screen {
 
         AssetManager assets = game.getAssetManager();
         background = new Background(assets.get(SPACE, Texture.class));
-        spaceShip = new SpaceShip(assets.get(SPACESHIP, Texture.class), SCREEN_WIDTH / 2, 80);
+        spaceShip = new SpaceShip(assets.get(SPACESHIP, Texture.class), SCREEN_WIDTH / 2, 80, this);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         asteroidPool = new AsteroidPool(assets);
         activeAsteroids.add(asteroidPool.obtain());
+        missilePool = new MissilePool(assets);
         player = new Player();
 
         font = new BitmapFont();
