@@ -6,13 +6,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.darkun.screen.AttackScreen;
+import lombok.Getter;
 
 
 public class AsteroidAttack extends Game {
     public static final int SCREEN_WIDTH = 500;
     public static final int SCREEN_HEIGHT = 800;
 
+    @Getter
     private SpriteBatch batch;
+    @Getter
     private AssetManager assetManager;
 
     @Override
@@ -36,13 +39,5 @@ public class AsteroidAttack extends Game {
     @Override
     public void dispose() {
         batch.dispose();
-    }
-
-    public SpriteBatch getBatch() {
-        return batch;
-    }
-
-    public AssetManager getAssetManager() {
-        return assetManager;
     }
 }

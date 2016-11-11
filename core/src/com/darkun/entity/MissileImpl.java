@@ -6,11 +6,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.darkun.AsteroidAttack;
+import lombok.ToString;
 
 /**
  * @author Dmitry Kartsev <dek.alpha@mail.ru>
  * @since 06.11.2016.
  */
+@ToString
 public class MissileImpl implements Missile {
     private Vector2 position;
     private float stateTime = 0f;
@@ -58,13 +60,4 @@ public class MissileImpl implements Missile {
 
     @Override
     public boolean isEnable() { return this.active; }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("MissileImpl{");
-        sb.append("position=").append(position);
-        sb.append(", stateTime=").append(stateTime);
-        sb.append('}');
-        return sb.toString();
-    }
 }
