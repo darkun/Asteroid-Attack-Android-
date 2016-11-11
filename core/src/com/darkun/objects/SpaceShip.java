@@ -26,7 +26,7 @@ public class SpaceShip implements Disposable {
     private static final double MISSILE_LAUNCH_DELAY = 750.0d; // delay between launching missiles
     private static final float M_FLY_X_OFFSET = 53.0f; // distance from center of spaceship to shoot missile
     private static final float M_FLY_Y_OFFSET = 30.0f; // distance from bottom of spaceship to shoot missile
-    private static long lastShoot = 0; // where was last missile launching
+    private static long lastShoot = 0; // when was last missile launching
     private boolean rightWing = true; // we can start missiles from both wings
     private float offsetX; // наш корабль может чуть вылетать за пределы экрана, а то астероиды тоже вылетают
 
