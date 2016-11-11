@@ -7,11 +7,11 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.0.0'
+        classpath 'me.tatarka:gradle-retrolambda:3.3.1'
     }
 }
 
 allprojects {
-    apply plugin: "eclipse"
     apply plugin: "idea"
 
     version = '1.0'
@@ -46,6 +46,8 @@ project(":desktop") {
 
 project(":android") {
     apply plugin: "android"
+    apply plugin: 'com.android.application'
+    apply plugin: 'me.tatarka.retrolambda'
 
     configurations { natives }
 
@@ -68,14 +70,11 @@ project(":android") {
 
 project(":core") {
     apply plugin: "java"
+    apply plugin: "me.tatarka.retrolambda"
 
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     }
-}
-
-tasks.eclipse.doLast {
-    delete ".project"
 }
