@@ -1,4 +1,4 @@
-package com.darkun;
+package com.darkun.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -11,17 +11,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.darkun.objects.AsteroidPool;
-import com.darkun.objects.MissilePool;
-import com.darkun.objects.Player;
-import com.darkun.objects.asteroid.Asteroid;
-import com.darkun.objects.SpaceShip;
-import com.darkun.objects.missile.Missile;
+import com.darkun.AsteroidAttack;
+import com.darkun.Background;
+import com.darkun.BackgroundMusic;
+import com.darkun.pool.AsteroidPool;
+import com.darkun.pool.MissilePool;
+import com.darkun.entity.Player;
+import com.darkun.entity.Asteroid;
+import com.darkun.entity.SpaceShip;
+import com.darkun.entity.Missile;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.darkun.ResourceLoader.BACKMUSIC;
+import static com.darkun.ResourceLoader.BACK_MUSIC;
 import static com.darkun.ResourceLoader.SPACE;
 import static com.darkun.ResourceLoader.SPACESHIP;
 import static com.darkun.AsteroidAttack.SCREEN_HEIGHT;
@@ -66,7 +69,7 @@ public class AttackScreen implements Screen {
         font = new BitmapFont();
         font.setColor(Color.BLUE);
 
-        backgroundMusic = new BackgroundMusic(assets.get(BACKMUSIC, Music.class));
+        backgroundMusic = new BackgroundMusic(assets.get(BACK_MUSIC, Music.class));
         backgroundMusic.play();
     }
 

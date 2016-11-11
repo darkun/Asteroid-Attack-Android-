@@ -1,4 +1,4 @@
-package com.darkun.objects;
+package com.darkun.entity;
 
 /**
  * @author Gavrilov E. <mr.jerik@gmail.com>

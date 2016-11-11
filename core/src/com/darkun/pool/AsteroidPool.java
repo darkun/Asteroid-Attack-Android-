@@ -1,11 +1,11 @@
-package com.darkun.objects;
+package com.darkun.pool;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Pool;
-import com.darkun.objects.asteroid.Asteroid;
-import com.darkun.objects.asteroid.AsteroidImpl;
+import com.darkun.entity.Asteroid;
+import com.darkun.entity.AsteroidImpl;
 
 import static com.darkun.ResourceLoader.ASTEROID_1;
 import static com.darkun.ResourceLoader.ASTEROID_2;

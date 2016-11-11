@@ -1,16 +1,11 @@
-package com.darkun.objects.missile;
+package com.darkun.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.darkun.AsteroidAttack;
-
-import static com.darkun.AsteroidAttack.SCREEN_HEIGHT;
-import static com.darkun.AsteroidAttack.SCREEN_WIDTH;
 
 /**
  * @author Dmitry Kartsev <dek.alpha@mail.ru>
