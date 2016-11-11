@@ -1,4 +1,4 @@
-package com.darkun.objects.asteroid;
+package com.darkun.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Array;
 
 import static com.darkun.AsteroidAttack.SCREEN_HEIGHT;
 import static com.darkun.AsteroidAttack.SCREEN_WIDTH;
-import static com.darkun.objects.Utils.textureToRegions;
+import static com.darkun.Utils.textureToRegions;
 
 /**
  * @author Gavrilov E. <mr.jerik@gmail.com>

@@ -1,11 +1,10 @@
-package com.darkun.objects;
+package com.darkun.pool;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
-import com.darkun.objects.missile.MissileImpl;
-import com.darkun.objects.missile.Missile;
+import com.darkun.entity.MissileImpl;
+import com.darkun.entity.Missile;
 
 import static com.darkun.ResourceLoader.MISSILE;
 

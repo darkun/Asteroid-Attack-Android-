@@ -1,4 +1,4 @@
-package com.darkun.objects.asteroid;
+package com.darkun.entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Pool;
