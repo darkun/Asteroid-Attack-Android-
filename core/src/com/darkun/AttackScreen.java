@@ -17,7 +17,6 @@ import com.darkun.objects.Player;
 import com.darkun.objects.asteroid.Asteroid;
 import com.darkun.objects.SpaceShip;
 import com.darkun.objects.missile.Missile;
-import com.badlogic.gdx.audio.Music;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,7 @@ public class AttackScreen implements Screen {
     private OrthographicCamera camera;
     private Player player;
     private BitmapFont font;
-    private GameMusic gameMusic;
+    private BackgroundMusic backgroundMusic;
 
     private AsteroidPool asteroidPool;
     private List<Asteroid> activeAsteroids = new ArrayList<>();
@@ -67,8 +66,8 @@ public class AttackScreen implements Screen {
         font = new BitmapFont();
         font.setColor(Color.BLUE);
 
-        gameMusic = new GameMusic(assets.get(BACKMUSIC, Music.class));
-        gameMusic.playMusic();
+        backgroundMusic = new BackgroundMusic(assets.get(BACKMUSIC, Music.class));
+        backgroundMusic.play();
     }
 
     @Override
@@ -145,7 +144,7 @@ public class AttackScreen implements Screen {
         spaceShip.dispose();
     }
 
-    public void addtMissileToPool(float x, float y) {
+    public void addMissileToPool(float x, float y) {
         Missile mis = missilePool.obtain();
         mis.start(x, y);
         activeMissiles.add(mis);

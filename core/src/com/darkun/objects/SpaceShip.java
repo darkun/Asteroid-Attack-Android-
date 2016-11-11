@@ -2,19 +2,16 @@ package com.darkun.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
-import com.darkun.AsteroidAttack;
 import com.darkun.AttackScreen;
 
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static com.badlogic.gdx.utils.TimeUtils.timeSinceMillis;
 import static com.darkun.AsteroidAttack.SCREEN_WIDTH;
-import static com.darkun.ResourceLoader.SPACESHIP;
 
 /**
  * @author Gavrilov E. <mr.jerik@gmail.com>
@@ -29,8 +26,8 @@ public class SpaceShip implements Disposable {
     private static final double MISSILE_LAUNCH_DELAY = 750.0d; // delay between launching missiles
     private static final float M_FLY_X_OFFSET = 53.0f; // distance from center of spaceship to shoot missile
     private static final float M_FLY_Y_OFFSET = 30.0f; // distance from bottom of spaceship to shoot missile
-    private static long lastShoot; // where was last missile launching
-    private boolean rightWing; // we can start missiles from both wings
+    private static long lastShoot = 0; // where was last missile launching
+    private boolean rightWing = true; // we can start missiles from both wings
     private float offsetX; // наш корабль может чуть вылетать за пределы экрана, а то астероиды тоже вылетают
 
     public SpaceShip(Texture texture, float x, float y, AttackScreen screen) {
@@ -41,8 +38,6 @@ public class SpaceShip implements Disposable {
                 .setWidth(texture.getWidth())
                 .setCenter(position);
         this.offsetX = bounds.getWidth() / 2;
-        this.rightWing = true;
-        this.lastShoot = 0;
         this.attackScreen = screen;
     }
 
@@ -62,11 +57,11 @@ public class SpaceShip implements Disposable {
     private void startMissile(float x, float y) {
         if(timeSinceMillis(lastShoot) > MISSILE_LAUNCH_DELAY) {
             if(rightWing) {
-                attackScreen.addtMissileToPool(x + M_FLY_X_OFFSET, y + M_FLY_Y_OFFSET);
+                attackScreen.addMissileToPool(x + M_FLY_X_OFFSET, y + M_FLY_Y_OFFSET);
                 this.rightWing = false;
             }
             else {
-                attackScreen.addtMissileToPool(x + M_FLY_X_OFFSET / 3, y + M_FLY_Y_OFFSET);
+                attackScreen.addMissileToPool(x + M_FLY_X_OFFSET / 3, y + M_FLY_Y_OFFSET);
                 this.rightWing = true;
             }
             lastShoot = millis();
