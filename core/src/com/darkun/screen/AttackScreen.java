@@ -100,9 +100,7 @@ public class AttackScreen implements Screen {
             activeAsteroids.add(asteroidPool.obtain());
         }
 
-        for (Asteroid i : activeAsteroids) {
-            i.draw(batch);
-        }
+        activeAsteroids.forEach(asteroid -> asteroid.draw(batch));
 
         font.draw(batch, String.valueOf(player.getHealth()), SCREEN_WIDTH - 30, SCREEN_HEIGHT - 10);
         batch.end();
