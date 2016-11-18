@@ -4,7 +4,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Pool;
-import com.darkun.entity.Asteroid;
 import com.darkun.entity.AsteroidImpl;
 
 import static com.darkun.ResourceLoader.ASTEROID_1;
@@ -15,14 +14,14 @@ import static com.darkun.ResourceLoader.ASTEROID_2;
  * @todo remove 72
  * @since 03.11.16
  */
-public class AsteroidPool extends Pool<Asteroid> {
+public class AsteroidPool extends Pool<AsteroidImpl> {
     private AssetManager assets;
 
     public AsteroidPool(AssetManager manager) {
         this.assets = manager;
     }
     @Override
-    protected Asteroid newObject() {
+    protected AsteroidImpl newObject() {
         if (MathUtils.randomBoolean())
             return new AsteroidImpl(assets.get(ASTEROID_2, Texture.class), 72, 72);
         else

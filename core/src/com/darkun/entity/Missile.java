@@ -10,7 +10,5 @@ import com.badlogic.gdx.utils.Pool;
 public interface Missile extends Pool.Poolable {
     void draw(Batch batch);
 
-    boolean isEnable();
-
     void start(float x, float y);
 }

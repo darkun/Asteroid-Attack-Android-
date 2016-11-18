@@ -10,16 +10,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.darkun.AsteroidAttack;
 import com.darkun.Background;
 import com.darkun.BackgroundMusic;
+import com.darkun.entity.*;
 import com.darkun.pool.AsteroidPool;
 import com.darkun.pool.MissilePool;
-import com.darkun.entity.Player;
-import com.darkun.entity.Asteroid;
-import com.darkun.entity.SpaceShip;
-import com.darkun.entity.Missile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +33,8 @@ import static com.darkun.AsteroidAttack.SCREEN_WIDTH;
  * @since 24.10.16
  */
 public class AttackScreen implements Screen {
+    private final boolean DEBUG_BOUNDS = false;
+
     private AsteroidAttack game;
     private Background background;
     private SpaceShip spaceShip;
@@ -44,12 +44,10 @@ public class AttackScreen implements Screen {
     private BackgroundMusic backgroundMusic;
 
     private AsteroidPool asteroidPool;
-    private List<Asteroid> activeAsteroids = new ArrayList<>();
-
     private MissilePool missilePool;
-    private List<Missile> activeMissiles = new ArrayList<>();
 
-    //public static ArrayList<Missile> missiles = new ArrayList<>(); // missiles, launched by player
+    private List<AsteroidImpl> activeAsteroids = new ArrayList<>();
+    private List<MissileImpl> activeMissiles = new ArrayList<>();
 
     public AttackScreen(final AsteroidAttack game) {
         this.game = game;
@@ -81,49 +79,58 @@ public class AttackScreen implements Screen {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        updateGameLogic();
         camera.update();
         SpriteBatch batch = game.getBatch();
         batch.setProjectionMatrix(camera.combined);
 
+        updateGameLogic();
+
         batch.begin();
         background.draw(batch);
 
-        for (Missile m : activeMissiles) {
-            if(m.isEnable()) m.draw(batch);
-        }
-
         spaceShip.draw(batch);
-
-        //todo change the operating logic
-        if (MathUtils.random(100) > 99) {
-            activeAsteroids.add(asteroidPool.obtain());
-        }
-
+        activeMissiles.forEach(m -> m.draw(batch));
         activeAsteroids.forEach(asteroid -> asteroid.draw(batch));
 
         font.draw(batch, String.valueOf(player.getHealth()), SCREEN_WIDTH - 30, SCREEN_HEIGHT - 10);
         batch.end();
 
+        if (DEBUG_BOUNDS) {
+            ShapeRenderer shapeRenderer = new ShapeRenderer();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            activeAsteroids.forEach(a -> a.debugBounds(shapeRenderer));
+            activeMissiles.forEach(m-> m.debugBounds(shapeRenderer));
+            shapeRenderer.end();
+        }
+
         spaceShip.processKeys();
-
-        clearObjects();
     }
 
-    private void updateGameLogic() { // let's update our game situation
-        // TODO now we update game situation right in draw() method of objects. I think, later we will need to feel this.
-    }
+    private void updateGameLogic() {
+        activeAsteroids.forEach(a -> {
+            if (a.getPosition().y < 0) asteroidPool.free(a);
+        });
 
-    void clearObjects() { // let's delete empty objects from array lists
-        // that's why I use "boolean active" for missiles. Else we will get an error in draw() - not initialized cords
-        // So, I do not understand, why do we have in activeMissiles arrow NOT active missiles. U can check it yourself.
-        Missile mis;
-        for (int i = activeMissiles.size(); --i >= 0;) {
-            mis = activeMissiles.get(i);
-            if (!mis.isEnable()) {
-                activeMissiles.remove(i);
-                missilePool.free(mis);
+        activeMissiles.forEach(m -> {
+            if (m.getPosition().y > SCREEN_HEIGHT) {
+                missilePool.free(m);
+                return;
             }
+
+            activeAsteroids.forEach(a -> {
+                if (a.isActive() && a.contains(m.getBoomPoint())) {
+                    asteroidPool.free(a);
+                    missilePool.free(m);
+                }
+            });
+        });
+
+        activeMissiles.removeIf(m -> !m.isActive());
+        activeAsteroids.removeIf(a -> !a.isActive());
+
+        //todo change the operating logic
+        if (MathUtils.random(100) > 99) {
+            activeAsteroids.add(asteroidPool.obtain());
         }
     }
 
@@ -146,8 +153,8 @@ public class AttackScreen implements Screen {
     }
 
     public void addMissileToPool(float x, float y) {
-        Missile mis = missilePool.obtain();
-        mis.start(x, y);
+        MissileImpl mis = missilePool.obtain();
         activeMissiles.add(mis);
+        mis.start(x, y);
     }
 }
