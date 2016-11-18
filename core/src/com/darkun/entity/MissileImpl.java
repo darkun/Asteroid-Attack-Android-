@@ -18,14 +18,14 @@ public class MissileImpl implements Missile {
     private float stateTime = 0f;
     private Texture texture;
     private Rectangle bounds;
-    private boolean active; // is missile exists and not exploded yet?
+    //private boolean active; // is missile exists and not exploded yet?
     private int SPEED = 3; // speed of missile
     private int flyTime;
 
     public MissileImpl(Texture texture) {
         this.position = new Vector2();
         this.texture = texture;
-        this.active = false;
+        //this.active = false;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class MissileImpl implements Missile {
         if(flyTime > SPEED) // checking, if our missile not too hurry )
         {
             position.y += bounds.getY();
-            this.active = (position.y + bounds.getY()) < AsteroidAttack.SCREEN_HEIGHT;
+            //this.active = (position.y - bounds.getY()) > AsteroidAttack.SCREEN_HEIGHT;
             this.flyTime = 0;
         }
         else this.flyTime++;
@@ -55,9 +55,9 @@ public class MissileImpl implements Missile {
                 .setHeight(texture.getHeight())
                 .setWidth(texture.getWidth())
                 .setCenter(position);
-        this.active = true;
+        /*this.active = true;*/
     }
 
-    @Override
-    public boolean isEnable() { return this.active; }
+    /*@Override
+    public boolean isEnable() { return this.active; }*/
 }

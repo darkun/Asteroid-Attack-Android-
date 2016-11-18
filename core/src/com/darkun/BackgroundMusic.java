@@ -17,4 +17,6 @@ public class BackgroundMusic {
     public void play() { song.play(); }
 
     public void pause() { song.pause(); }
+
+    public void stop() { song.stop(); }
 }
