@@ -4,7 +4,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Pool;
 import com.darkun.entity.MissileImpl;
-import com.darkun.entity.Missile;
 
 import static com.darkun.ResourceLoader.MISSILE;
 
@@ -12,7 +11,7 @@ import static com.darkun.ResourceLoader.MISSILE;
  * @author Kartsev Dmitry. <dek.alpha@mail.ru>
  * @since 06.11.16
  */
-public class MissilePool extends Pool<Missile> {
+public class MissilePool extends Pool<MissileImpl> {
     private AssetManager assets;
 
     public MissilePool(AssetManager manager) {
@@ -20,7 +19,7 @@ public class MissilePool extends Pool<Missile> {
     }
 
     @Override
-    protected Missile newObject() {
+    protected MissileImpl newObject() {
         return new MissileImpl(assets.get(MISSILE, Texture.class));
     }
 }
