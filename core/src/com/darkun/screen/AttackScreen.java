@@ -130,7 +130,9 @@ public class AttackScreen implements Screen {
 
         //todo change the operating logic
         if (MathUtils.random(100) > 99) {
-            activeAsteroids.add(asteroidPool.obtain());
+            AsteroidImpl asteroid = asteroidPool.obtain();
+            asteroid.start();
+            activeAsteroids.add(asteroid);
         }
     }
 

@@ -28,7 +28,7 @@ public class AsteroidImpl implements Asteroid {
     protected static float FRAME_DURATION = 0.1f;
 
     @Getter
-    private boolean active;
+    private boolean active = true;
     @Getter
     private Vector2 position;
 
@@ -37,16 +37,19 @@ public class AsteroidImpl implements Asteroid {
     private float stateTime = 0f;
 
     public AsteroidImpl(Texture texture, int srcWidth, int srcHeight) {
-        calculateStartPosition(srcWidth);
-        bounds = new Circle(calculateCenter(srcWidth / 2), srcWidth / 2);
-
+        bounds = new Circle(new Vector2(), srcWidth / 2);
         Array<TextureRegion> regions = textureToRegions(texture, srcWidth, srcHeight);
         if (MathUtils.randomBoolean())
             regions.reverse();
 
         animation = new Animation(FRAME_DURATION, regions);
-        active = true;
+    }
 
+    public void start() {
+        active = true;
+        calculateStartPosition(bounds.radius * 2);
+        bounds.set(calculateCenter(bounds.radius), bounds.radius);
+        stateTime = 0f;
         Gdx.app.debug(LOG_TAG, "Started - " + this.toString());
     }
 
@@ -68,14 +71,11 @@ public class AsteroidImpl implements Asteroid {
     @Override
     public void reset() {
         active = false;
-        position.set(0, 0);
-        bounds.set(calculateCenter(bounds.radius), bounds.radius);
-        stateTime = 0f;
         Gdx.app.debug(LOG_TAG, "Removed - " + this.toString());
     }
 
-    private void calculateStartPosition(int textureWidth) {
-        float maxWidth = Integer.valueOf(SCREEN_WIDTH - textureWidth).floatValue();
+    private void calculateStartPosition(float width) {
+        float maxWidth = SCREEN_WIDTH - width;
         position = new Vector2(MathUtils.random(maxWidth), SCREEN_HEIGHT);
     }
 
