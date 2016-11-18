@@ -60,7 +60,6 @@ public class AttackScreen implements Screen {
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         asteroidPool = new AsteroidPool(assets);
-        activeAsteroids.add(asteroidPool.obtain());
         missilePool = new MissilePool(assets);
         player = new Player();
 

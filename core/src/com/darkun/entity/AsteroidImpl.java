@@ -28,7 +28,7 @@ public class AsteroidImpl implements Asteroid {
     protected static float FRAME_DURATION = 0.1f;
 
     @Getter
-    private boolean active = true;
+    private boolean active = false;
     @Getter
     private Vector2 position;
 
