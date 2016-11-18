@@ -18,6 +18,7 @@ public class ResourceLoader {
     public static final String ASTEROID_2 = "sprites/asteroid-2.png";
 
     public static final String BACK_MUSIC = "sounds/song.mp3";
+    public static final String BACK_MUSIC_MENU = "sounds/main_menu.mp3";
 
 
     public static void load(AssetManager assets) {
@@ -27,5 +28,6 @@ public class ResourceLoader {
         assets.load(ASTEROID_2, Texture.class);
         assets.load(MISSILE, Texture.class);
         assets.load(BACK_MUSIC, Music.class);
+        assets.load(BACK_MUSIC_MENU, Music.class);
     }
 }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.darkun.screen.AttackScreen;
+import com.darkun.screen.MainMenuScreen;
 import lombok.Getter;
 
 
@@ -28,7 +28,7 @@ public class AsteroidAttack extends Game {
         ResourceLoader.load(assetManager);
         assetManager.finishLoading();
 
-        this.setScreen(new AttackScreen(this));
+        this.setScreen(new MainMenuScreen(this));
     }
 
     @Override
