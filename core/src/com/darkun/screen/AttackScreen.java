@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.darkun.AsteroidAttack;
 import com.darkun.Background;
 import com.darkun.BackgroundMusic;
+import com.darkun.GameSound;
 import com.darkun.entity.*;
 import com.darkun.pool.AsteroidPool;
 import com.darkun.pool.MissilePool;
@@ -22,11 +24,9 @@ import com.darkun.pool.MissilePool;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.darkun.ResourceLoader.BACK_MUSIC;
-import static com.darkun.ResourceLoader.SPACE;
-import static com.darkun.ResourceLoader.SPACESHIP;
 import static com.darkun.AsteroidAttack.SCREEN_HEIGHT;
 import static com.darkun.AsteroidAttack.SCREEN_WIDTH;
+import static com.darkun.ResourceLoader.*;
 
 /**
  * @author Gavrilov E. <mr.jerik@gmail.com>
@@ -42,6 +42,8 @@ public class AttackScreen implements Screen {
     private Player player;
     private BitmapFont font;
     private BackgroundMusic backgroundMusic;
+    private GameSound missile_explode;
+    private GameSound missile_launch;
 
     private AsteroidPool asteroidPool;
     private MissilePool missilePool;
@@ -68,6 +70,9 @@ public class AttackScreen implements Screen {
 
         backgroundMusic = new BackgroundMusic(assets.get(BACK_MUSIC, Music.class));
         backgroundMusic.play();
+
+        missile_explode = new GameSound(assets.get(MISSILE_EXPLODE, Sound.class));
+        missile_launch = new GameSound(assets.get(MISSILE_LAUNCH, Sound.class));
     }
 
     @Override
@@ -120,6 +125,7 @@ public class AttackScreen implements Screen {
                 if (a.isActive() && a.contains(m.getBoomPoint())) {
                     asteroidPool.free(a);
                     missilePool.free(m);
+                    missile_explode.play();
                 }
             });
         });
@@ -157,5 +163,6 @@ public class AttackScreen implements Screen {
         MissileImpl mis = missilePool.obtain();
         activeMissiles.add(mis);
         mis.start(x, y);
+        missile_launch.play();
     }
 }
