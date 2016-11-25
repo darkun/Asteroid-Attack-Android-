@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.darkun.GameSound;
+import jdk.nashorn.internal.objects.annotations.Setter;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -22,10 +24,13 @@ public class MissileImpl implements Missile {
     private Vector2 position;
     @Getter
     private boolean active = false;
+    @Getter
+    private GameSound sound;
 
     private Texture texture;
     private Rectangle bounds;
     private int SPEED = 5;
+    private long currentSoundId;
 
     public MissileImpl(Texture texture) {
         this.texture = texture;
@@ -47,14 +52,17 @@ public class MissileImpl implements Missile {
     public void reset() {
         active = false;
         position.set(0, 0);
+        sound.stop(currentSoundId);
         Gdx.app.debug(LOG_TAG, "Removed - " + this.toString());
     }
 
     @Override
-    public void start(float x, float y) {
+    public void start(float x, float y, GameSound sound) {
         position.set(x, y);
         bounds.setPosition(position);
         active = true;
+        this.sound = sound;
+        currentSoundId = sound.play();
         Gdx.app.debug(LOG_TAG, "Started - " + this.toString());
     }
 

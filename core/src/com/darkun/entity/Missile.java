@@ -2,6 +2,7 @@ package com.darkun.entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Pool;
+import com.darkun.GameSound;
 
 /**
  * @author Dmitry Kartsev <dek.alpha@mail.ru>
@@ -10,5 +11,5 @@ import com.badlogic.gdx.utils.Pool;
 public interface Missile extends Pool.Poolable {
     void draw(Batch batch);
 
-    void start(float x, float y);
+    void start(float x, float y, GameSound sound);
 }

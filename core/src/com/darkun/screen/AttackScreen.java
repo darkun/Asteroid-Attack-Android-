@@ -173,7 +173,7 @@ public class AttackScreen implements Screen {
     public void addMissileToPool(float x, float y) {
         MissileImpl mis = missilePool.obtain();
         activeMissiles.add(mis);
-        mis.start(x, y);
-        missile_launch.play();
+        mis.start(x, y, missile_launch);
+        //missile_launch.play();
     }
 }

@@ -13,9 +13,11 @@ public class GameSound {
         this.sound = sound;
     }
 
-    public void play() { sound.play(); }
+    public long play() { return sound.play(); }
 
     public void pause() { sound.pause(); }
 
     public void stop() { sound.stop(); }
+
+    public void stop(long id) { sound.stop(id); }
 }
