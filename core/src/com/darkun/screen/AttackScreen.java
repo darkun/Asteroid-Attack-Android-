@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.darkun.AsteroidAttack;
 import com.darkun.Background;
 import com.darkun.BackgroundMusic;
@@ -33,7 +34,7 @@ import static com.darkun.ResourceLoader.*;
  * @since 24.10.16
  */
 public class AttackScreen implements Screen {
-    private final boolean DEBUG_BOUNDS = false;
+    private final boolean DEBUG_BOUNDS = true;
 
     private AsteroidAttack game;
     private Background background;
@@ -136,8 +137,18 @@ public class AttackScreen implements Screen {
         //todo change the operating logic
         if (MathUtils.random(100) > 99) {
             AsteroidImpl asteroid = asteroidPool.obtain();
-            asteroid.start();
-            activeAsteroids.add(asteroid);
+
+            float maxWidth = SCREEN_WIDTH - asteroid.getBounds().radius * 2;
+            Vector2 position = new Vector2(MathUtils.random(maxWidth), SCREEN_HEIGHT);
+            asteroid.start(position);
+
+            if (activeAsteroids.stream().anyMatch(i -> i.getBounds().overlaps(asteroid.getBounds()))) {
+                Gdx.app.debug(AsteroidImpl.LOG_TAG, "Canceling - " + asteroid.toString());
+                asteroidPool.free(asteroid);
+            }
+            else {
+                activeAsteroids.add(asteroid);
+            }
         }
     }
 

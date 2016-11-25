@@ -14,8 +14,6 @@ import com.badlogic.gdx.utils.Array;
 import lombok.Getter;
 import lombok.ToString;
 
-import static com.darkun.AsteroidAttack.SCREEN_HEIGHT;
-import static com.darkun.AsteroidAttack.SCREEN_WIDTH;
 import static com.darkun.Utils.textureToRegions;
 
 /**
@@ -31,8 +29,9 @@ public class AsteroidImpl implements Asteroid {
     private boolean active = false;
     @Getter
     private Vector2 position;
-
+    @Getter
     private Circle bounds;
+
     protected Animation animation;
     private float stateTime = 0f;
 
@@ -45,9 +44,9 @@ public class AsteroidImpl implements Asteroid {
         animation = new Animation(FRAME_DURATION, regions);
     }
 
-    public void start() {
+    public void start(Vector2 position) {
         active = true;
-        calculateStartPosition(bounds.radius * 2);
+        this.position = position;
         bounds.set(calculateCenter(bounds.radius), bounds.radius);
         stateTime = 0f;
         Gdx.app.debug(LOG_TAG, "Started - " + this.toString());
@@ -72,11 +71,6 @@ public class AsteroidImpl implements Asteroid {
     public void reset() {
         active = false;
         Gdx.app.debug(LOG_TAG, "Removed - " + this.toString());
-    }
-
-    private void calculateStartPosition(float width) {
-        float maxWidth = SCREEN_WIDTH - width;
-        position = new Vector2(MathUtils.random(maxWidth), SCREEN_HEIGHT);
     }
 
     public boolean contains (Vector2 point) {
