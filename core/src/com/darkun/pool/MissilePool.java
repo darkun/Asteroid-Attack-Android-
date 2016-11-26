@@ -20,6 +20,6 @@ public class MissilePool extends Pool<MissileImpl> {
 
     @Override
     protected MissileImpl newObject() {
-        return new MissileImpl(assets.get(MISSILE, Texture.class));
+        return new MissileImpl(assets);
     }
 }

@@ -1,16 +1,20 @@
 package com.darkun.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.darkun.GameSound;
 import jdk.nashorn.internal.objects.annotations.Setter;
 import lombok.Getter;
 import lombok.ToString;
+
+import static com.darkun.ResourceLoader.MISSILE;
+import static com.darkun.ResourceLoader.MISSILE_LAUNCH_SND;
 
 /**
  * @author Dmitry Kartsev <dek.alpha@mail.ru>
@@ -24,16 +28,16 @@ public class MissileImpl implements Missile {
     private Vector2 position;
     @Getter
     private boolean active = false;
-    @Getter
-    private GameSound sound;
 
+    private Sound sound;
     private Texture texture;
     private Rectangle bounds;
     private int SPEED = 5;
     private long currentSoundId;
 
-    public MissileImpl(Texture texture) {
-        this.texture = texture;
+    public MissileImpl(AssetManager assets) {
+        this.texture = assets.get(MISSILE, Texture.class);
+        this.sound = assets.get(MISSILE_LAUNCH_SND, Sound.class);
         position = new Vector2(0, 0);
         bounds = new Rectangle()
                 .setHeight(texture.getHeight())
@@ -57,17 +61,16 @@ public class MissileImpl implements Missile {
     }
 
     @Override
-    public void start(float x, float y, GameSound sound) {
+    public void start(float x, float y) {
         position.set(x, y);
         bounds.setPosition(position);
         active = true;
-        this.sound = sound;
         currentSoundId = sound.play();
         Gdx.app.debug(LOG_TAG, "Started - " + this.toString());
     }
 
     public Vector2 getBoomPoint() {
-        return new Vector2(position).add(0, bounds.getHeight() / 2);
+        return new Vector2(position).add(0 - bounds.getWidth() / 2, 0 - bounds.getHeight() / 2);
     }
 
     public void debugBounds(ShapeRenderer renderer) {

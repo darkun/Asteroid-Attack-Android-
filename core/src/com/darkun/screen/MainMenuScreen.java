@@ -17,8 +17,7 @@ import com.darkun.BackgroundMusic;
 
 import static com.darkun.AsteroidAttack.SCREEN_HEIGHT;
 import static com.darkun.AsteroidAttack.SCREEN_WIDTH;
-import static com.darkun.ResourceLoader.BACK_MUSIC_MENU;
-import static com.darkun.ResourceLoader.SPACE;
+import static com.darkun.ResourceLoader.*;
 
 /**
  * @author Kartsev Dmitry. <dek.alpha@mail.ru>
@@ -44,8 +43,7 @@ public class MainMenuScreen implements Screen{
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        font = new BitmapFont();
-        font.getData().setScale(1.5f);
+        font = assets.get(BIG_WHITE_FONT, BitmapFont.class);
         font.setColor(Color.RED);
 
         backgroundMusic = new BackgroundMusic(assets.get(BACK_MUSIC_MENU, Music.class));
@@ -67,8 +65,8 @@ public class MainMenuScreen implements Screen{
         batch.begin();
         background.draw(batch);
 
-        font.draw(batch, MESSAGE_WELCOME, 140, 450);
-        font.draw(batch, MESSAGE_TO_BEGIN, 120, 400);
+        font.draw(batch, MESSAGE_WELCOME, 60, 450);
+        font.draw(batch, MESSAGE_TO_BEGIN, 40, 400);
         batch.end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {

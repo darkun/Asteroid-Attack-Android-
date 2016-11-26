@@ -1,14 +1,15 @@
 package com.darkun.entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 
 /**
  * @author Dmitry Kartsev <dek.alpha@mail.ru>
- * @since 06.11.2016.
+ * @since 26.11.2016
  */
-public interface Missile extends Pool.Poolable {
+public interface Explode extends Pool.Poolable {
     void draw(Batch batch);
 
-    void start(float x, float y);
+    void start(Vector2 boomPoint);
 }

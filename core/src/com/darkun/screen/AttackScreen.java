@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,9 +16,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.darkun.AsteroidAttack;
 import com.darkun.Background;
 import com.darkun.BackgroundMusic;
-import com.darkun.GameSound;
 import com.darkun.entity.*;
 import com.darkun.pool.AsteroidPool;
+import com.darkun.pool.ExplodePool;
 import com.darkun.pool.MissilePool;
 
 import java.util.ArrayList;
@@ -43,14 +42,14 @@ public class AttackScreen implements Screen {
     private Player player;
     private BitmapFont font;
     private BackgroundMusic backgroundMusic;
-    private GameSound missile_explode;
-    private GameSound missile_launch;
 
     private AsteroidPool asteroidPool;
     private MissilePool missilePool;
+    private ExplodePool explodePool;
 
     private List<AsteroidImpl> activeAsteroids = new ArrayList<>();
     private List<MissileImpl> activeMissiles = new ArrayList<>();
+    private List<ExplodeImpl> activeExplodes = new ArrayList<>();
 
     public AttackScreen(final AsteroidAttack game) {
         this.game = game;
@@ -64,20 +63,19 @@ public class AttackScreen implements Screen {
 
         asteroidPool = new AsteroidPool(assets);
         missilePool = new MissilePool(assets);
+        explodePool = new ExplodePool(assets);
         player = new Player();
 
-        font = new BitmapFont();
+        font = assets.get(SYS_WHITE_FONT, BitmapFont.class);
         font.setColor(Color.BLUE);
 
         backgroundMusic = new BackgroundMusic(assets.get(BACK_MUSIC, Music.class));
         backgroundMusic.play();
-
-        missile_explode = new GameSound(assets.get(MISSILE_EXPLODE, Sound.class));
-        missile_launch = new GameSound(assets.get(MISSILE_LAUNCH, Sound.class));
     }
 
     @Override
-    public void show() {}
+    public void show() {
+    }
 
     @Override
     public void render(float delta) {
@@ -96,15 +94,17 @@ public class AttackScreen implements Screen {
         spaceShip.draw(batch);
         activeMissiles.forEach(m -> m.draw(batch));
         activeAsteroids.forEach(asteroid -> asteroid.draw(batch));
+        activeExplodes.forEach(e -> e.draw(batch));
 
-        font.draw(batch, String.valueOf(player.getHealth()), SCREEN_WIDTH - 30, SCREEN_HEIGHT - 10);
+        font.draw(batch, String.valueOf(player.getHealth()), SCREEN_WIDTH - 40, SCREEN_HEIGHT - 12);
         batch.end();
 
         if (DEBUG_BOUNDS) {
             ShapeRenderer shapeRenderer = new ShapeRenderer();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             activeAsteroids.forEach(a -> a.debugBounds(shapeRenderer));
-            activeMissiles.forEach(m-> m.debugBounds(shapeRenderer));
+            activeMissiles.forEach(m -> m.debugBounds(shapeRenderer));
+            activeExplodes.forEach(e -> e.debugBounds(shapeRenderer));
             shapeRenderer.end();
         }
 
@@ -124,15 +124,16 @@ public class AttackScreen implements Screen {
 
             activeAsteroids.forEach(a -> {
                 if (a.isActive() && a.contains(m.getBoomPoint())) {
+                    createExplode(a.getPoint());
                     asteroidPool.free(a);
                     missilePool.free(m);
-                    missile_explode.play();
                 }
             });
         });
 
         activeMissiles.removeIf(m -> !m.isActive());
         activeAsteroids.removeIf(a -> !a.isActive());
+        activeExplodes.removeIf(e -> !e.isActive());
 
         //todo change the operating logic
         if (MathUtils.random(100) > 99) {
@@ -145,24 +146,33 @@ public class AttackScreen implements Screen {
             if (activeAsteroids.stream().anyMatch(i -> i.getBounds().overlaps(asteroid.getBounds()))) {
                 Gdx.app.debug(AsteroidImpl.LOG_TAG, "Canceling - " + asteroid.toString());
                 asteroidPool.free(asteroid);
-            }
-            else {
+            } else {
                 activeAsteroids.add(asteroid);
             }
         }
     }
 
-    @Override
-    public void resize(int width, int height) {}
+    private void createExplode(Vector2 boomPoint) {
+        ExplodeImpl explode = explodePool.obtain();
+        explode.start(boomPoint);
+        activeExplodes.add(explode);
+    }
 
     @Override
-    public void pause() {}
+    public void resize(int width, int height) {
+    }
 
     @Override
-    public void resume() {}
+    public void pause() {
+    }
 
     @Override
-    public void hide() {}
+    public void resume() {
+    }
+
+    @Override
+    public void hide() {
+    }
 
     @Override
     public void dispose() {
@@ -173,7 +183,6 @@ public class AttackScreen implements Screen {
     public void addMissileToPool(float x, float y) {
         MissileImpl mis = missilePool.obtain();
         activeMissiles.add(mis);
-        mis.start(x, y, missile_launch);
-        //missile_launch.play();
+        mis.start(x, y);
     }
 }
