@@ -28,7 +28,7 @@ public class AsteroidImpl implements Asteroid {
     @Getter
     private boolean active = false;
     @Getter
-    private Vector2 position;
+    public Vector2 position;
     @Getter
     private Circle bounds;
 
@@ -79,9 +79,5 @@ public class AsteroidImpl implements Asteroid {
 
     public Vector2 calculateCenter(float radius) {
          return new Vector2(position.x + radius, position.y + radius);
-    }
-
-    public Vector2 getPoint() {
-        return new Vector2(position.x, position.y);
     }
 }

@@ -124,7 +124,7 @@ public class AttackScreen implements Screen {
 
             activeAsteroids.forEach(a -> {
                 if (a.isActive() && a.contains(m.getBoomPoint())) {
-                    createExplode(a.getPoint());
+                    createExplode(a.getPosition());
                     asteroidPool.free(a);
                     missilePool.free(m);
                 }
