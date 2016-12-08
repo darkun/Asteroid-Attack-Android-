@@ -97,6 +97,7 @@ public class AttackScreen implements Screen {
         activeExplodes.forEach(e -> e.draw(batch));
 
         font.draw(batch, String.valueOf(player.getHealth()), SCREEN_WIDTH - 40, SCREEN_HEIGHT - 12);
+        font.draw(batch, String.valueOf(player.getGamePoints()), SCREEN_WIDTH - 120, SCREEN_HEIGHT - 12);
         batch.end();
 
         if (DEBUG_BOUNDS) {
@@ -125,6 +126,7 @@ public class AttackScreen implements Screen {
             activeAsteroids.forEach(a -> {
                 if (a.isActive() && a.contains(m.getBoomPoint())) {
                     createExplode(a.getPosition());
+                    player.addGamePoints(a.getBonusPoints());
                     asteroidPool.free(a);
                     missilePool.free(m);
                 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lombok.Getter;
@@ -24,6 +25,7 @@ import static com.darkun.Utils.textureToRegions;
 public class AsteroidImpl implements Asteroid {
     public static final String LOG_TAG = AsteroidImpl.class.getSimpleName().toUpperCase();
     protected static float FRAME_DURATION = 0.1f;
+    protected int MAX_POINTS = 100;
 
     @Getter
     private boolean active = false;
@@ -31,9 +33,12 @@ public class AsteroidImpl implements Asteroid {
     public Vector2 position;
     @Getter
     private Circle bounds;
+    private RandomXS128 random;
 
     protected Animation animation;
     private float stateTime = 0f;
+    @Getter
+    private int bonusPoints;
 
     public AsteroidImpl(Texture texture, int srcWidth, int srcHeight) {
         bounds = new Circle(new Vector2(), srcWidth / 2);
@@ -42,6 +47,8 @@ public class AsteroidImpl implements Asteroid {
             regions.reverse();
 
         animation = new Animation(FRAME_DURATION, regions);
+        random = new RandomXS128();
+        bonusPoints = random.nextInt(MAX_POINTS);
     }
 
     public void start(Vector2 position) {

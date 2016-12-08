@@ -1,6 +1,5 @@
 package com.darkun.entity;
 
-
 import lombok.Getter;
 import lombok.ToString;
 
@@ -13,10 +12,16 @@ public class Player {
     @Getter
     private int health = 100;
     @Getter
+    private int gamePoints = 0;
+    @Getter
     private boolean gameOver = false;
 
     public void getDamage(int damage) {
         health -= damage;
         gameOver = health <= 0;
+    }
+
+    public void addGamePoints(int points) {
+        gamePoints += points;
     }
 }
