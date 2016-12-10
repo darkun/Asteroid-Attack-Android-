@@ -12,11 +12,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import jdk.nashorn.internal.objects.annotations.Setter;
 import lombok.Getter;
 import lombok.ToString;
 
-import static com.darkun.ResourceLoader.*;
+import static com.darkun.ResourceLoader.EXPLOSION;
+import static com.darkun.ResourceLoader.EXPLOSION_SND;
 import static com.darkun.Utils.textureToRegions;
 
 /**
@@ -26,8 +26,7 @@ import static com.darkun.Utils.textureToRegions;
 @ToString(exclude = "texture")
 public class ExplodeImpl implements Explode {
     public static final String LOG_TAG = ExplodeImpl.class.getSimpleName().toUpperCase();
-    protected static float FRAME_DURATION = 0.1f;
-    public float radius;
+    private static final float FRAME_DURATION = 0.1f;
     protected Animation animation;
     @Getter
     private Vector2 position;

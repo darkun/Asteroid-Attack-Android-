@@ -14,7 +14,7 @@ public class Player {
     @Getter
     private int gamePoints = 0;
     @Getter
-    public boolean gameOver = false;
+    private boolean gameOver = false;
 
     public void getDamage(int damage) {
         health -= damage;

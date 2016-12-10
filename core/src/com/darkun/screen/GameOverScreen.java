@@ -28,7 +28,7 @@ import static com.darkun.ResourceLoader.*;
  */
 public class GameOverScreen implements Screen{
 
-    public float FADE_DURATION = 2.0f;
+    private static final float FADE_DURATION = 2.0f;
     private String MESSAGE_GAME_OVER = "You loose!";
     private String MESSAGE_TO_BEGIN = "Press ENTER to try again!";
     private AsteroidAttack game;

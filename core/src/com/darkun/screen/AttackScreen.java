@@ -114,7 +114,7 @@ public class AttackScreen implements Screen {
     }
 
     private void updateGameLogic() {
-        if(player.gameOver) {
+        if(player.isGameOver()) {
             backgroundMusic.stop();
             game.setScreen(new GameOverScreen(game));
         } else {
@@ -122,7 +122,7 @@ public class AttackScreen implements Screen {
                 if (a.getPosition().y < 0) { asteroidPool.free(a); }
                 else if (a.contains(spaceShip.getCrashPoint())) {
                     createExplode(a.getPosition());
-                    player.getDamage(a.getBonusPoints() / 10);
+                    player.getDamage(a.getBonusPoints() / 5);
                     asteroidPool.free(a);
                 }
             });
@@ -137,7 +137,6 @@ public class AttackScreen implements Screen {
                     if ((a.isActive()) && (a.contains(m.getBoomPoint()))) {
                         createExplode(a.getPosition());
                         player.addGamePoints(a.getBonusPoints());
-                        player.getDamage(a.getBonusPoints());
                         asteroidPool.free(a);
                         missilePool.free(m);
                     }
