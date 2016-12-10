@@ -15,12 +15,7 @@ import lombok.Getter;
 public class AsteroidAttack extends Game {
     public static final int SCREEN_WIDTH = 500;
     public static final int SCREEN_HEIGHT = 800;
-    /*
-    private static final String FONT_CHARACTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|/?-+=()*&.;,{}\"?`'<>";
 
-    @Getter
-    public BitmapFont mainFont;
-     */
     @Getter
     private SpriteBatch batch;
     @Getter
@@ -32,10 +27,6 @@ public class AsteroidAttack extends Game {
 
         batch = new SpriteBatch();
 
-        /*
-        generateFont();
-         */
-
         assetManager = new AssetManager();
         ResourceLoader.load(assetManager);
         assetManager.finishLoading();
@@ -43,17 +34,6 @@ public class AsteroidAttack extends Game {
         this.setScreen(new MainMenuScreen(this));
     }
 
-    private void generateFont() {
-        /*
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Micra-Bold.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        param.size = Gdx.graphics.getHeight() / 18;
-        param.characters = FONT_CHARACTERS;
-        mainFont = generator.generateFont(param);
-        mainFont.setColor(Color.RED);
-        generator.dispose();
-        */
-    }
 
     @Override
     public void render() {

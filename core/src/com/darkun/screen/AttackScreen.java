@@ -106,6 +106,7 @@ public class AttackScreen implements Screen {
             activeAsteroids.forEach(a -> a.debugBounds(shapeRenderer));
             activeMissiles.forEach(m -> m.debugBounds(shapeRenderer));
             activeExplodes.forEach(e -> e.debugBounds(shapeRenderer));
+            spaceShip.debugBounds(shapeRenderer);
             shapeRenderer.end();
         }
 
@@ -113,43 +114,54 @@ public class AttackScreen implements Screen {
     }
 
     private void updateGameLogic() {
-        activeAsteroids.forEach(a -> {
-            if (a.getPosition().y < 0) asteroidPool.free(a);
-        });
-
-        activeMissiles.forEach(m -> {
-            if (m.getPosition().y > SCREEN_HEIGHT) {
-                missilePool.free(m);
-                return;
-            }
-
+        if(player.gameOver) {
+            backgroundMusic.stop();
+            game.setScreen(new GameOverScreen(game));
+        } else {
             activeAsteroids.forEach(a -> {
-                if (a.isActive() && a.contains(m.getBoomPoint())) {
+                if (a.getPosition().y < 0) { asteroidPool.free(a); }
+                else if (a.contains(spaceShip.getCrashPoint())) {
                     createExplode(a.getPosition());
-                    player.addGamePoints(a.getBonusPoints());
+                    player.getDamage(a.getBonusPoints() / 10);
                     asteroidPool.free(a);
-                    missilePool.free(m);
                 }
             });
-        });
 
-        activeMissiles.removeIf(m -> !m.isActive());
-        activeAsteroids.removeIf(a -> !a.isActive());
-        activeExplodes.removeIf(e -> !e.isActive());
+            activeMissiles.forEach(m -> {
+                if (m.getPosition().y > SCREEN_HEIGHT) {
+                    missilePool.free(m);
+                    return;
+                }
 
-        //todo change the operating logic
-        if (MathUtils.random(100) > 99) {
-            AsteroidImpl asteroid = asteroidPool.obtain();
+                activeAsteroids.forEach(a -> {
+                    if ((a.isActive()) && (a.contains(m.getBoomPoint()))) {
+                        createExplode(a.getPosition());
+                        player.addGamePoints(a.getBonusPoints());
+                        player.getDamage(a.getBonusPoints());
+                        asteroidPool.free(a);
+                        missilePool.free(m);
+                    }
+                });
+            });
 
-            float maxWidth = SCREEN_WIDTH - asteroid.getBounds().radius * 2;
-            Vector2 position = new Vector2(MathUtils.random(maxWidth), SCREEN_HEIGHT);
-            asteroid.start(position);
+            activeMissiles.removeIf(m -> !m.isActive());
+            activeAsteroids.removeIf(a -> !a.isActive());
+            activeExplodes.removeIf(e -> !e.isActive());
 
-            if (activeAsteroids.stream().anyMatch(i -> i.getBounds().overlaps(asteroid.getBounds()))) {
-                Gdx.app.debug(AsteroidImpl.LOG_TAG, "Canceling - " + asteroid.toString());
-                asteroidPool.free(asteroid);
-            } else {
-                activeAsteroids.add(asteroid);
+            //todo change the operating logic
+            if (MathUtils.random(100) > 99) {
+                AsteroidImpl asteroid = asteroidPool.obtain();
+
+                float maxWidth = SCREEN_WIDTH - asteroid.getBounds().radius * 2;
+                Vector2 position = new Vector2(MathUtils.random(maxWidth), SCREEN_HEIGHT);
+                asteroid.start(position);
+
+                if (activeAsteroids.stream().anyMatch(i -> i.getBounds().overlaps(asteroid.getBounds()))) {
+                    Gdx.app.debug(AsteroidImpl.LOG_TAG, "Canceling - " + asteroid.toString());
+                    asteroidPool.free(asteroid);
+                } else {
+                    activeAsteroids.add(asteroid);
+                }
             }
         }
     }

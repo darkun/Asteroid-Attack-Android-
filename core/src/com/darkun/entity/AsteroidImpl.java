@@ -25,7 +25,7 @@ import static com.darkun.Utils.textureToRegions;
 public class AsteroidImpl implements Asteroid {
     public static final String LOG_TAG = AsteroidImpl.class.getSimpleName().toUpperCase();
     protected static float FRAME_DURATION = 0.1f;
-    protected int MAX_POINTS = 100;
+    protected int MAX_POINTS = 100; // we generating points value randomly from 0 to MAX_POINTS
 
     @Getter
     private boolean active = false;

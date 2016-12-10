@@ -29,6 +29,7 @@ public class ResourceLoader {
     public static final String MISSILE_LAUNCH_SND = "sounds/missile_launch.wav";
 
     public static final String BIG_WHITE_FONT = "fonts/white.fnt";
+    public static final String BIG_BLACK_FONT = "fonts/black.fnt";
     public static final String SYS_WHITE_FONT = "fonts/system.fnt";
 
 
@@ -45,6 +46,7 @@ public class ResourceLoader {
         assets.load(EXPLOSION_SND, Sound.class);
         assets.load(MISSILE_LAUNCH_SND, Sound.class);
         assets.load(BIG_WHITE_FONT, BitmapFont.class);
+        assets.load(BIG_BLACK_FONT, BitmapFont.class);
         assets.load(SYS_WHITE_FONT, BitmapFont.class);
     }
 }

@@ -1,5 +1,7 @@
 package com.darkun.screen;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -10,14 +12,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.darkun.AsteroidAttack;
 import com.darkun.BackgroundMusic;
+import com.darkun.tween.SpriteAccessor;
 
 import static com.darkun.AsteroidAttack.SCREEN_HEIGHT;
 import static com.darkun.AsteroidAttack.SCREEN_WIDTH;
-import static com.darkun.ResourceLoader.BACK_MUSIC_MENU;
-import static com.darkun.ResourceLoader.GOVER_SPLASH;
+import static com.darkun.ResourceLoader.*;
 
 /**
  * @author Kartsev Dmitry. <dek.alpha@mail.ru>
@@ -25,49 +28,63 @@ import static com.darkun.ResourceLoader.GOVER_SPLASH;
  */
 public class GameOverScreen implements Screen{
 
+    public float FADE_DURATION = 2.0f;
     private String MESSAGE_GAME_OVER = "You loose!";
     private String MESSAGE_TO_BEGIN = "Press ENTER to try again!";
     private AsteroidAttack game;
 
+
     private Texture background;
     private OrthographicCamera camera;
-    private BitmapFont font;
+    private BitmapFont font, fontBlack;
     private BackgroundMusic backgroundMusic;
+    private TweenManager tweenManager;
+    private Sprite splash;
 
     public GameOverScreen(final AsteroidAttack gam) {
         this.game = gam;
 
         AssetManager assets = game.getAssetManager();
         background = assets.get(GOVER_SPLASH, Texture.class);
+        splash = new Sprite(background);
+        splash.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        font = new BitmapFont();
-        font.getData().setScale(1.5f);
+        font = assets.get(BIG_WHITE_FONT, BitmapFont.class);
         font.setColor(Color.RED);
+        fontBlack = assets.get(BIG_BLACK_FONT, BitmapFont.class);
 
         backgroundMusic = new BackgroundMusic(assets.get(BACK_MUSIC_MENU, Music.class));
         backgroundMusic.play();
+
+        tweenManager = new TweenManager();
+        Tween.registerAccessor(Sprite.class, new SpriteAccessor());
     }
 
     @Override
-    public void show() {}
+    public void show() {
+        Tween.set(splash, SpriteAccessor.ALPHA).target(0).start(tweenManager);
+        Tween.to(splash, SpriteAccessor.ALPHA, FADE_DURATION).target(1).start(tweenManager);
+    }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        tweenManager.update(delta);
 
         camera.update();
         SpriteBatch batch = game.getBatch();
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        batch.draw(background, 0, 0);
+        splash.draw(batch);
 
-        font.draw(batch, MESSAGE_GAME_OVER, 140, 250);
-        font.draw(batch, MESSAGE_TO_BEGIN, 120, 300);
+        fontBlack.draw(batch, MESSAGE_GAME_OVER, 120, 440);
+        font.draw(batch, MESSAGE_TO_BEGIN, 100, 720);
         batch.end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
