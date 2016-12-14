@@ -27,6 +27,7 @@ import static com.darkun.Utils.textureToRegions;
 public class ExplodeImpl implements Explode {
     public static final String LOG_TAG = ExplodeImpl.class.getSimpleName().toUpperCase();
     private static final float FRAME_DURATION = 0.1f;
+    public static final float EXPLODE_DAMPING = 0.01f;
     protected Animation animation;
     @Getter
     private Vector2 position;
@@ -38,6 +39,7 @@ public class ExplodeImpl implements Explode {
     private float stateTime = 0f;
     private int MAX_FRAMES = 73;
     private int frames = 0;
+    private float explodeSpeed = 0f;
 
     public ExplodeImpl(AssetManager assets, int srcWidth, int srcHeight) {
         this.texture = assets.get(EXPLOSION, Texture.class);
@@ -59,6 +61,8 @@ public class ExplodeImpl implements Explode {
         if (frames >= MAX_FRAMES) {
             reset();
         }
+        position.y -= explodeSpeed;
+        if(explodeSpeed > 0) explodeSpeed -= EXPLODE_DAMPING;
     }
 
     @Override
@@ -69,9 +73,10 @@ public class ExplodeImpl implements Explode {
     }
 
     @Override
-    public void start(Vector2 position) {
+    public void start(Vector2 position, float speed) {
         active = true;
         this.position = position;
+        this.explodeSpeed = speed;
         bounds.set(calculateCenter(bounds.radius), bounds.radius);
         stateTime = 0f;
         sound.play();

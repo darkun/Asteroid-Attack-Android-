@@ -11,5 +11,5 @@ import com.badlogic.gdx.utils.Pool;
 public interface Explode extends Pool.Poolable {
     void draw(Batch batch);
 
-    void start(Vector2 boomPoint);
+    void start(Vector2 position, float speed);
 }
