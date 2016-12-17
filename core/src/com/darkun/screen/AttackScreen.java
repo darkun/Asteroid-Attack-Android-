@@ -121,7 +121,7 @@ public class AttackScreen implements Screen {
             activeAsteroids.forEach(a -> {
                 if (a.getPosition().y < 0) { asteroidPool.free(a); }
                 else if (a.contains(spaceShip.getCrashPoint())) {
-                    createExplode(a.getPosition(), 0);
+                    createExplode(a.getPosition(), a.getAsteroidSpeed());
                     player.getDamage(a.getBonusPoints() / 5);
                     asteroidPool.free(a);
                 }
