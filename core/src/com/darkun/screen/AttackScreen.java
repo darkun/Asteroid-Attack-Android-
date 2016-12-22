@@ -121,7 +121,7 @@ public class AttackScreen implements Screen {
             activeAsteroids.forEach(a -> {
                 if (a.getPosition().y < 0) { asteroidPool.free(a); }
                 else if (a.contains(spaceShip.getCrashPoint())) {
-                    createExplode(a.getPosition(), a.getAsteroidSpeed());
+                    createExplode(a.getPosition(), a.getAsteroidSpeed(), a.getTraectory());
                     player.getDamage(a.getBonusPoints() / 5);
                     asteroidPool.free(a);
                 }
@@ -135,7 +135,7 @@ public class AttackScreen implements Screen {
 
                 activeAsteroids.forEach(a -> {
                     if ((a.isActive()) && (a.contains(m.getBoomPoint()))) {
-                        createExplode(a.getPosition(), a.getAsteroidSpeed());
+                        createExplode(a.getPosition(), a.getAsteroidSpeed(), a.getTraectory());
                         player.addGamePoints(a.getBonusPoints());
                         asteroidPool.free(a);
                         missilePool.free(m);
@@ -165,9 +165,9 @@ public class AttackScreen implements Screen {
         }
     }
 
-    private void createExplode(Vector2 boomPoint, float speed) {
+    private void createExplode(Vector2 boomPoint, float asteroidSpeed, float traectory) {
         ExplodeImpl explode = explodePool.obtain();
-        explode.start(boomPoint, speed);
+        explode.start(boomPoint, asteroidSpeed, traectory);
         activeExplodes.add(explode);
     }
 

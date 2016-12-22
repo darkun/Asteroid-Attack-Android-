@@ -11,6 +11,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.darkun.AsteroidAttack;
 import com.darkun.Background;
 import com.darkun.BackgroundMusic;
@@ -33,6 +39,13 @@ public class MainMenuScreen implements Screen{
     private OrthographicCamera camera;
     private BitmapFont font;
     private BackgroundMusic backgroundMusic;
+
+    private Stage stage;
+    private TextureAtlas atlas;
+    private Skin skin;
+    private Table table;
+    private TextButton buttonPlay, buttonExit;
+    private Label heading;
 
     public MainMenuScreen(final AsteroidAttack gam) {
         this.game = gam;

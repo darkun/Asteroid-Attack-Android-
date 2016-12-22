@@ -10,6 +10,7 @@ public class DesktopLauncher {
         config.title = "Asteroid Attack! Scroller Game v2";
         config.width = AsteroidAttack.SCREEN_WIDTH;
         config.height = AsteroidAttack.SCREEN_HEIGHT;
+        config.vSyncEnabled = true;
         new LwjglApplication(new AsteroidAttack(), config);
 	}
 }

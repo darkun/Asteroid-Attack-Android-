@@ -40,6 +40,7 @@ public class ExplodeImpl implements Explode {
     private int MAX_FRAMES = 73;
     private int frames = 0;
     private float explodeSpeed = 0f;
+    private float traectory;
 
     public ExplodeImpl(AssetManager assets, int srcWidth, int srcHeight) {
         this.texture = assets.get(EXPLOSION, Texture.class);
@@ -56,6 +57,7 @@ public class ExplodeImpl implements Explode {
         stateTime += Gdx.graphics.getDeltaTime();
         bounds.set(calculateCenter(bounds.radius), bounds.radius);
         TextureRegion frame = animation.getKeyFrame(stateTime, true);
+        position.x += traectory;
         batch.draw(frame, position.x, position.y);
         frames++;
         if (frames >= MAX_FRAMES) {
@@ -73,10 +75,11 @@ public class ExplodeImpl implements Explode {
     }
 
     @Override
-    public void start(Vector2 position, float speed) {
+    public void start(Vector2 position, float asteroidSpeed, float asteroidTraectory) {
         active = true;
         this.position = position;
-        this.explodeSpeed = speed;
+        this.explodeSpeed = asteroidSpeed;
+        this.traectory = asteroidTraectory;
         bounds.set(calculateCenter(bounds.radius), bounds.radius);
         stateTime = 0f;
         sound.play();

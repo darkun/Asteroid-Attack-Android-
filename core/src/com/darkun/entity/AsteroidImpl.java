@@ -25,8 +25,13 @@ public class AsteroidImpl implements Asteroid {
     public static final String LOG_TAG = AsteroidImpl.class.getSimpleName().toUpperCase();
     private static final float FRAME_DURATION = 0.1f;
     private static final int MAX_POINTS = 100; // we generating points value randomly from 0 to MAX_POINTS
-    public static final float ASTEROID_MIN_SPEED = 0.3f;
-    public static final float ASTEROID_MAX_SPEED = 1.7f;
+    private static final float ASTEROID_MIN_SPEED = 0.3f;
+    private static final float ASTEROID_MAX_SPEED = 1.7f;
+    private static final float ASTEROID_TRAECTORY_MIN = -0.7f;
+    private static final float ASTEROID_TRAECTORY_MAX = 0
+
+
+    .7f;
 
     @Getter
     private boolean active = false;
@@ -41,6 +46,8 @@ public class AsteroidImpl implements Asteroid {
     private int bonusPoints;
     @Getter
     private float asteroidSpeed = 1f;
+    @Getter
+    private float traectory = 0; // coeff for X dislocation
 
     public AsteroidImpl(Texture texture, int srcWidth, int srcHeight) {
         bounds = new Circle(new Vector2(), srcWidth / 2);
@@ -51,6 +58,7 @@ public class AsteroidImpl implements Asteroid {
         animation = new Animation(FRAME_DURATION, regions);
         bonusPoints = MathUtils.random(MAX_POINTS);
         asteroidSpeed = MathUtils.random(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED);
+        traectory = MathUtils.random(ASTEROID_TRAECTORY_MIN, ASTEROID_TRAECTORY_MAX);
     }
 
     public void start(Vector2 position) {
@@ -67,6 +75,7 @@ public class AsteroidImpl implements Asteroid {
         // TODO need to update
         //position.y--;
         position.y -= asteroidSpeed;
+        position.x += traectory;
         bounds.set(calculateCenter(bounds.radius), bounds.radius);
         TextureRegion frame = animation.getKeyFrame(stateTime, true);
         batch.draw(frame, position.x, position.y);

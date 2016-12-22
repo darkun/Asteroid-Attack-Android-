@@ -107,5 +107,6 @@ public class GameOverScreen implements Screen{
 
     @Override
     public void dispose() {
+        splash.getTexture().dispose();
     }
 }
