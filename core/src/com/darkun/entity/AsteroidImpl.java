@@ -28,10 +28,7 @@ public class AsteroidImpl implements Asteroid {
     private static final float ASTEROID_MIN_SPEED = 0.3f;
     private static final float ASTEROID_MAX_SPEED = 1.7f;
     private static final float ASTEROID_TRAECTORY_MIN = -0.7f;
-    private static final float ASTEROID_TRAECTORY_MAX = 0
-
-
-    .7f;
+    private static final float ASTEROID_TRAECTORY_MAX = 0.7f;
 
     @Getter
     private boolean active = false;
