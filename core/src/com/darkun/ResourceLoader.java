@@ -28,9 +28,9 @@ public class ResourceLoader {
     public static final String EXPLOSION_SND = "sounds/missile_explode.wav";
     public static final String MISSILE_LAUNCH_SND = "sounds/missile_launch.wav";
 
-    public static final String BIG_WHITE_FONT = "fonts/white.fnt";
-    public static final String BIG_BLACK_FONT = "fonts/black.fnt";
-    public static final String SYS_WHITE_FONT = "fonts/system.fnt";
+    public static final String BIG_WHITE_FONT = "fonts/menu/white/white.fnt";
+    public static final String BIG_BLACK_FONT = "fonts/menu/black/black.fnt";
+    public static final String SYS_WHITE_FONT = "fonts/game/system/system.fnt";
 
 
     public static void load(AssetManager assets) {
